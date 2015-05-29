@@ -7,10 +7,9 @@ Gem::Specification.new do |spec|
   spec.name          = "database_plumber"
   spec.version       = DatabasePlumber::VERSION
   spec.authors       = ["Barry Gordon"]
-  spec.email         = ["hello@barrygordon.co.uk"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.email         = ["barry@shopkeep.com"]
+  spec.summary       = %q{Finds leaky ActiveRecord models in your specs.}
+  spec.homepage      = "http://www.barrygordon.co.uk"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -20,4 +19,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
+
+  spec.add_runtime_dependency "activerecord"
+  spec.add_runtime_dependency "rspec"
 end
