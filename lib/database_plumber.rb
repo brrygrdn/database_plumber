@@ -1,14 +1,21 @@
 require 'active_record'
 
 require 'database_plumber/leak_finder'
+require 'database_plumber/report'
 require 'database_plumber/version'
 
 module DatabasePlumber
   def self.log(example)
-
+    @example = example
   end
 
-  def self.inspect(options)
-
+  def self.inspect(options={})
+    leaks = LeakFinder.inspect(options)
+    unless leaks.empty?
+      Report.on @example, leaks
+      if options[:brutal]
+        exit!
+      end
+    end
   end
 end

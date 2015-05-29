@@ -1,3 +1,5 @@
+require 'pry'
+
 require 'bundler/setup'
 Bundler.setup
 
