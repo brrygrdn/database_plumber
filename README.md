@@ -1,4 +1,4 @@
-# DatabasePlumber
+# DatabasePlumber [![Build Status](https://travis-ci.org/brrygrdn/database_plumber.svg?branch=v0.0.1)](https://travis-ci.org/brrygrdn/database_plumber)
 
 A common problem in test suites for large [Rails][rails] applications is that,
 as they mature, balancing test speed and complexity often results in heavy use
