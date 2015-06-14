@@ -9,13 +9,11 @@ module DatabasePlumber
     @example = example
   end
 
-  def self.inspect(options={})
+  def self.inspect(options = {})
     leaks = LeakFinder.inspect(options)
     unless leaks.empty?
       Report.on @example, leaks
-      if options[:brutal]
-        exit!
-      end
+      exit! if options[:brutal]
     end
   end
 end

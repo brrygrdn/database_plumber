@@ -1,6 +1,6 @@
 RSpec.describe DatabasePlumber::LeakFinder do
   let(:normal_connection)   { double(:connection, adapter_name: 'NotSQLite') }
-  let(:ignored_connection)  { double(:connection, adapter_name: 'SQLite'   ) }
+  let(:ignored_connection)  { double(:connection, adapter_name: 'SQLite') }
 
   let(:happy_model)           { double(:happy,    abstract_class?: nil,  connection: normal_connection,  count: 0) }
   let(:leaky_model)           { double(:leaky,    abstract_class?: nil,  connection: normal_connection,  count: 1) }
@@ -33,7 +33,7 @@ RSpec.describe DatabasePlumber::LeakFinder do
 
       it { expect(@leaks).to eql(expected_leaks) }
 
-      it { expect(ActiveRecord::SchemaMigration).not_to have_received(:destroy_all)}
+      it { expect(ActiveRecord::SchemaMigration).not_to have_received(:destroy_all) }
 
       it { expect(happy_model).not_to have_received(:destroy_all) }
       it { expect(leaky_model).to have_received(:destroy_all) }
@@ -60,7 +60,7 @@ RSpec.describe DatabasePlumber::LeakFinder do
 
       it { expect(@leaks).to eql(expected_leaks) }
 
-      it { expect(ActiveRecord::SchemaMigration).not_to have_received(:destroy_all)}
+      it { expect(ActiveRecord::SchemaMigration).not_to have_received(:destroy_all) }
 
       it { expect(happy_model).not_to have_received(:destroy_all) }
       it { expect(leaky_model).to have_received(:destroy_all) }
@@ -87,7 +87,7 @@ RSpec.describe DatabasePlumber::LeakFinder do
 
       it { expect(@leaks).to eql(expected_leaks) }
 
-      it { expect(ActiveRecord::SchemaMigration).not_to have_received(:destroy_all)}
+      it { expect(ActiveRecord::SchemaMigration).not_to have_received(:destroy_all) }
 
       it { expect(happy_model).not_to have_received(:destroy_all) }
       it { expect(leaky_model).to have_received(:destroy_all) }
@@ -108,7 +108,7 @@ RSpec.describe DatabasePlumber::LeakFinder do
 
       it { expect(@leaks).to be_empty }
 
-      it { expect(ActiveRecord::SchemaMigration).not_to have_received(:destroy_all)}
+      it { expect(ActiveRecord::SchemaMigration).not_to have_received(:destroy_all) }
 
       it { expect(happy_model).not_to have_received(:destroy_all) }
       it { expect(leaky_model).not_to have_received(:destroy_all) }
