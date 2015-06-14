@@ -2,15 +2,16 @@ RSpec.describe DatabasePlumber::LeakFinder do
   let(:normal_connection)   { double(:connection, adapter_name: 'NotSQLite') }
   let(:ignored_connection)  { double(:connection, adapter_name: 'SQLite') }
 
-  let(:happy_model)           { double(:happy,    abstract_class?: nil,  connection: normal_connection,  count: 0) }
-  let(:leaky_model)           { double(:leaky,    abstract_class?: nil,  connection: normal_connection,  count: 1) }
-  let(:abstract_model)        { double(:abstract, abstract_class?: true, connection: normal_connection,  count: 2) }
-  let(:ignored_model)         { double(:ignored,  abstract_class?: nil,  connection: normal_connection,  count: 3) }
-  let(:ignored_adapter_model) { double(:anon,     abstract_class?: nil,  connection: ignored_connection, count: 4) }
+  let(:happy_model)           { double(:happy,    name: 'Happy',        abstract_class?: nil,  connection: normal_connection,  count: 0) }
+  let(:leaky_model)           { double(:leaky,    name: 'Leaky',        abstract_class?: nil,  connection: normal_connection,  count: 1) }
+  let(:abstract_model)        { double(:abstract, name: 'Abstract',     abstract_class?: true, connection: normal_connection,  count: 2) }
+  let(:ignored_model)         { double(:ignored,  name: 'Ignored',      abstract_class?: nil,  connection: normal_connection,  count: 3) }
+  let(:ignored_adapter_model) { double(:anon,     name: 'Anon',         abstract_class?: nil,  connection: ignored_connection, count: 4) }
+  let(:join_model_stub)       { double(:habtm,    name: 'HABTM_Things', abstract_class?: nil,  connection: normal_connection,  count: 5) }
 
   let(:globally_ignored_models) { [ActiveRecord::SchemaMigration] }
 
-  let(:model_space)     { [happy_model, leaky_model, ignored_model, abstract_model, ignored_adapter_model] | globally_ignored_models }
+  let(:model_space)     { [happy_model, leaky_model, ignored_model, abstract_model, ignored_adapter_model, join_model_stub] | globally_ignored_models }
 
   before(:each) do
     model_space.each do |model|
@@ -40,6 +41,8 @@ RSpec.describe DatabasePlumber::LeakFinder do
 
       it { expect(ignored_model).to have_received(:destroy_all) }
       it { expect(ignored_adapter_model).to have_received(:destroy_all) }
+
+      it { expect(join_model_stub).not_to have_received(:destroy_all) }
     end
 
     context 'with an ignored model' do
@@ -67,6 +70,8 @@ RSpec.describe DatabasePlumber::LeakFinder do
 
       it { expect(ignored_model).not_to have_received(:destroy_all) }
       it { expect(ignored_adapter_model).to have_received(:destroy_all) }
+
+      it { expect(join_model_stub).not_to have_received(:destroy_all) }
     end
 
     context 'with an ignored adapter' do
@@ -94,6 +99,8 @@ RSpec.describe DatabasePlumber::LeakFinder do
 
       it { expect(ignored_model).to have_received(:destroy_all) }
       it { expect(ignored_adapter_model).not_to have_received(:destroy_all) }
+
+      it { expect(join_model_stub).not_to have_received(:destroy_all) }
     end
 
     context 'with no leaking models in scope' do
@@ -115,6 +122,8 @@ RSpec.describe DatabasePlumber::LeakFinder do
 
       it { expect(ignored_model).not_to have_received(:destroy_all) }
       it { expect(ignored_adapter_model).not_to have_received(:destroy_all) }
+
+      it { expect(join_model_stub).not_to have_received(:destroy_all) }
     end
   end
 end

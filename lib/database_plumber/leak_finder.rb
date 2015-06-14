@@ -41,9 +41,11 @@ module DatabasePlumber
     end
 
     def filtered_models
-      model_space.reject do |model|
-        @ignored_models.include? model
-      end
+      model_space.reject(&method(:excluded_model?))
+    end
+
+    def excluded_model?(model)
+      @ignored_models.include?(model) || model.name =~ /^HABTM_/
     end
 
     def model_space
