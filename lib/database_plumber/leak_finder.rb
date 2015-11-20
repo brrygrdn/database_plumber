@@ -1,5 +1,7 @@
 module DatabasePlumber
   class LeakFinder
+    class InvalidModelError < StandardError ; end
+
     IGNORED_AR_INTERNALS = [ActiveRecord::SchemaMigration]
     private_constant :IGNORED_AR_INTERNALS
 
