@@ -6,10 +6,10 @@ require 'database_plumber/version'
 Gem::Specification.new do |spec|
   spec.name          = "database_plumber"
   spec.version       = DatabasePlumber::VERSION
-  spec.authors       = ["Barry Gordon"]
-  spec.email         = ["barry@shopkeep.com"]
+  spec.authors       = ["Barry Gordon", "David Kennedy"]
+  spec.email         = ["hello@barrygordon.co.uk", "dave@dkennedy.org"]
   spec.summary       = %q{Finds leaky ActiveRecord models in your specs.}
-  spec.homepage      = "http://www.barrygordon.co.uk"
+  spec.homepage      = "https://github.com/brrygrdn/database_plumber"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
