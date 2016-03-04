@@ -43,7 +43,7 @@ RSpec.configure do |config|
 
   ...
 
-  config.after(:each) do
+  config.after(:each) do |example|
     DatabaseCleaner.clean
     # Notify DatabasePlumber of each example after it has been executed
     DatabasePlumber.log example
