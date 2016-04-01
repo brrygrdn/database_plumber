@@ -133,8 +133,22 @@ config.after(:all) do
 end
 ```
 
-This is also useful if your test suite is problem-free and you would like ensure it
-stays that way.
+### Setting thresholds for Models
+
+You may have some models you would like to report on, but which should also have
+entries in the database, for example a table that is seeded or loaded with fixtures.
+In order to allow this you can provide a threshold for a Model, which is the
+maximum number of entries allowed in the database for the Model before it is
+regarded as leaky.
+
+To provide a threshold for a Model, you can can the following:
+
+```ruby
+config.after(:all) do
+  # Perform the report after each example group
+  DatabasePlumber.inspect model_thresholds: { Bar => 3 }
+end
+
 
 ## Contributing
 
