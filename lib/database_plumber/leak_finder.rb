@@ -12,12 +12,13 @@ module DatabasePlumber
     def initialize(options)
       @ignored_models = (options[:ignored_models] || []) + IGNORED_AR_INTERNALS
       @ignored_adapters = options[:ignored_adapters] || []
+      @model_thresholds = options[:model_thresholds] || {}
     end
 
     def inspect
       filtered_models.each_with_object({}) do |model, results|
         records = count_for(model)
-        if records > 0
+        if records > threshold_for(model)
           results[model.to_s] = records
           mop_up(model)
         end
@@ -32,6 +33,10 @@ module DatabasePlumber
       model.count
     rescue ActiveRecord::StatementInvalid
       raise InvalidModelError, "#{model} does not have a valid table definition"
+    end
+
+    def threshold_for(model)
+      @model_thresholds.key?(model) ? @model_thresholds[model].to_i : 0
     end
 
     def mop_up(model)
