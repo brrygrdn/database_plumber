@@ -148,6 +148,7 @@ config.after(:all) do
   # Perform the report after each example group
   DatabasePlumber.inspect model_thresholds: { Bar => 3 }
 end
+```
 
 
 ## Contributing
